@@ -15,7 +15,7 @@ add users as contributors to a particular project, create issues in the project,
 
 In addressing the OWASP(Open Worldwide Application Security Project) vulnerability checks to be implemented,
 the application uses JWT (JSON Web Token) for back-end authentication and Django REST Permissions, 
-and includes the following main features:
+and guarantees the following main features:
 
 - Only authenticated users should be able to access anything on the application.
 - Only project author and contributors are able to access it.
