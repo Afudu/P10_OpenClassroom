@@ -147,10 +147,10 @@ The following commands rely on the knowledge of how to use the terminal (Unix, m
     ```
 
 ## Testing the application
-After the server has started, the API can then be tested by creating an account and logging in.
+After the server has started, the API can then be tested by creating an account and logging in using the links below:
 
-* Signing up :  navigate to http://localhost:8000/api/signup
-* Logging in :  navigate to http://localhost:8000/api/login
+* Signup:  navigate to http://localhost:8000/api/signup
+* Login :  navigate to http://localhost:8000/api/login
 
 Or use the account below to log in:
 
