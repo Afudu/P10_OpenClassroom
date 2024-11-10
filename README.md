@@ -155,10 +155,8 @@ Or use the account below to log in:
  * Password = Password01
 
 Signup and Login endpoints are the only ones that don't require an access token.
-All other endpoints require an access token to work.
-
-All the endpoints can be tested using [Postman](https://www.postman.com/) or any other tool like cURL or
-Django REST framework’s localhost server.
+All other endpoints require an access token to work, and can be tested using [Postman](https://www.postman.com/) 
+or any other tool like cURL or Django REST framework’s localhost server.
 
 All required API Endpoints have been tested, documented on Postman, 
 and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on the web.
