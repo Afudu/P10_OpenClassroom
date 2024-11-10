@@ -18,18 +18,43 @@ the application uses JWT (JSON Web Token) for back-end authentication with Djang
 and guarantees the following required features:
 
 - Only authenticated users are able to access anything on the application.
-- Only a project's author and its contributors are able to access it.
 - Only a project's author is able to add contributors, update and delete the project. 
+- Only a project's author and its contributors are able to access it.
 - Only a project's contributors are able to:
   - create or access issues in the project, 
   - create & read comments on an issue, 
   - update & delete issues or comments if they are the author.
 
 The design follows the diagram of the database schema provided, 
-and GDPR standards have been adhered to by allowing users to update and delete their own data.
+and GDPR standards have been adhered to with data share and contact consents, 
+and allowing users to access and update only their own account.
 
-As required for the project's deliverables, all API Endpoints and their URIs have been tested, documented 
-in a Postman collection, and published on the web. The link is provided in the deliverables.
+### API Endpoints 
+
+| API Endpoint                          | HTTP Method | URI                                      |
+|---------------------------------------|-------------|------------------------------------------|
+| User Signup	                          | POST        | /signup/                                 |
+| User Login                            | POST        | /login/                                  |
+| List Projects of the Logged-in User   | GET         | /projects/                               |
+| Create a New Project                  | POST        | /projects/                               |
+| Get a Project                         | GET         | /projects/{id}/                          |
+| Update a Project                      | PUT         | /projects/{id}/                          |
+| Delete a Project and its Issues       | DELETE      | /projects/{id}/                          |
+| Add a User (contributor) to a Project | POST        | /projects/{id}/contributors/             |
+| List all the Users in a Project       | GET         | /projects/{id}/contributors/             |
+| Delete a User From a Project          | DELETE      | /projects/{id}/contributors/{id}         |
+| Get Issues of a Project               | GET         | /projects/{id}/issues/                   |
+| Create an Issue in a Project          | POST        | /projects/{id}/issues/                   |
+| Update an Issue in a Project          | PUT         | /projects/{id}/issues/{id}               |
+| Delete an Issue in a Project          | DELETE      | /projects/{id}/issues/{id}               |
+| Create Comments on an Issue           | POST        | /projects/{id}/issues/{id}/comments/     |
+| List all the Comments on an Issue     | GET         | /projects/{id}/issues/{id}/comments/     |
+| Edit a Comment                        | PUT         | /projects/{id}/issues/{id}/comments/{id} |
+| Delete a Comment                      | DELETE      | /projects/{id}/issues/{id}/comments/{id} |
+| Get a Particular Comment              | GET         | /projects/{id}/issues/{id}/comments/{id} |
+
+All required API Endpoints have been tested, documented on Postman, 
+and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on the web.
 
 ## Requirement
 
@@ -122,14 +147,18 @@ The following commands rely on the knowledge of how to use the terminal (Unix, m
     ```
 
 ## Testing the application
-After the server has started,  navigate to http://localhost:8000/api/login to check the api.
+After the server has started, the API can then be tested by creating an account and logging in.
 
-For testing purpose, use the account below to log in and perform tests:
+* Signing up :  navigate to http://localhost:8000/api/signup
+* Logging in :  navigate to http://localhost:8000/api/login
+
+Or use the account below to log in:
 
  * Username = User_Account_1
  * Password = Password01
 
-For further tests, go to Postman - https://www.postman.com/
+Note: Signup and Login endpoints are the only ones that don't require an access token.
+All other endpoints require an access token to work.
 
 # PEP 8 adherence
 
