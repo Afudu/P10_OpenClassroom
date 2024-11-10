@@ -53,9 +53,6 @@ and allowing users to access and update only their own account.
 | Delete a Comment                      | DELETE      | /projects/{id}/issues/{id}/comments/{id} |
 | Get a Particular Comment              | GET         | /projects/{id}/issues/{id}/comments/{id} |
 
-All required API Endpoints have been tested, documented on Postman, 
-and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on the web.
-
 ## Requirement
 
 Latest version of Python must be installed.
@@ -163,7 +160,7 @@ All other endpoints require an access token to work.
 All the endpoints can be tested using [Postman](https://www.postman.com/) or any other tool like cURL or
 Django REST framework’s localhost server.
 
-All required API Endpoints have been documented on Postman, 
+All required API Endpoints have been tested, documented on Postman, 
 and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on the web.
 
 # PEP 8 adherence
