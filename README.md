@@ -147,7 +147,7 @@ The following commands rely on the knowledge of how to use the terminal (Unix, m
     ```
 
 ## Testing the application
-After the server has started, the API can then be tested by creating an account and logging by navigating to:
+After the server has started, the API can then be tested by navigating to:
 
 * Signup:  http://localhost:8000/api/signup
 * Login :  http://localhost:8000/api/login
@@ -157,8 +157,14 @@ Or use the account below to log in:
  * Username = User_Account_1
  * Password = Password01
 
-Note: Signup and Login endpoints are the only ones that don't require an access token.
+Signup and Login endpoints are the only ones that don't require an access token.
 All other endpoints require an access token to work.
+
+All the endpoints can be tested using [Postman](https://www.postman.com/) or any other tool like cURL or
+Django REST framework’s localhost server.
+
+All required API Endpoints have been documented on Postman, 
+and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on the web.
 
 # PEP 8 adherence
 
