@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     """ Custom User model for creating users"""
+
+    # added age verification and consents fields for legal and GDPR
     age = models.IntegerField(verbose_name="age")
     contact_consent = models.BooleanField(default=False, verbose_name="contact consent")
     data_share_consent = models.BooleanField(default=False, verbose_name="data share consent")
@@ -14,8 +16,10 @@ class User(AbstractUser):
 
 class Project(models.Model):
     """ Project model for creating projects"""
-    # Short project_types
+
     objects = None
+
+    # Short project_types
     BACKEND = "B"
     FRONTEND = "F"
     IOS = "I"
@@ -48,8 +52,6 @@ class Project(models.Model):
 
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="created on")
     updated_time = models.DateTimeField(auto_now=True, verbose_name="updated on")
-    # issues_url = models.URLField(blank=True, verbose_name="issues url")
-    # contributors_url = models.URLField(blank=True, verbose_name="contributors url")
 
     def __str__(self):
         return f"Project: {self.name} ¦ Author: {self.author}"
@@ -132,7 +134,6 @@ class Issue(models.Model):
         verbose_name="issue assignee",
     )
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="created on")
-    comments_url = models.URLField(blank=True, verbose_name="comments url")
 
     def __str__(self):
         return (

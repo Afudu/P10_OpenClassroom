@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from api.views import (
+    RegisterView,
     UserViewSet,
     ProjectViewSet,
     ContributorViewSet,
@@ -14,7 +15,7 @@ from api.views import (
 
 app_name = "api"
 
-# rest_framework_nested
+# We use rest_framework_nested allowing nested urls.
 # https://github.com/alanjds/drf-nested-routers
 # Examples:
 # domains_router = routers.NestedSimpleRouter(router, r'domains', lookup='domain')
@@ -25,7 +26,7 @@ app_name = "api"
 default_router = nested_routers.DefaultRouter()
 
 # To generate:/users/ and /users/{pk}/
-# default_router.register(r'users', UserViewSet, basename="user")
+default_router.register(r'users', UserViewSet, basename="user")
 
 # To generate:/projects/ and /projects/{pk}/
 default_router.register(r'projects', ProjectViewSet, basename="project")
@@ -39,7 +40,7 @@ project_router.register(r"contributors", ContributorViewSet, basename="project-c
 # To generate:api/projects/{pk}/issues/ and api/projects/{pk}/issues/{pk}/
 project_router.register(r"issues", IssueViewSet, basename="project-issue")
 
-# comments router - 3rd level of nesting
+# comments router - for 3rd level of nesting
 comment_router = nested_routers.NestedSimpleRouter(project_router, r"issues", lookup="issue")
 
 # To generate:api/projects/{pk}/issues/{pk}/comments/ and api/projects/{pk}/issues/{pk}/comments/{pk}/
@@ -52,10 +53,7 @@ urlpatterns = [
     path('', include(default_router.urls)),
     path('', include(project_router.urls)),
     path('', include(comment_router.urls)),
-    path('signup/', UserViewSet.as_view({'post': 'create'}), name='signup'),
+    path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path("users/", UserViewSet.as_view({"get": "list"}), name="user-list"),
-    path("users/<int:pk>/", UserViewSet.as_view(
-        {"get": "retrieve", "delete": "destroy", "patch": "update"}), name="user-detail", ),
 ]

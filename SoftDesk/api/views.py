@@ -1,7 +1,10 @@
 from django.conf import settings
-from api.permissions import IsAuthorOrReadOnly, IsProjectAuthor, IsProjectContributor, IsAccountOwnerOrReadOnly
+from api.permissions import IsAuthorOrReadOnly, IsProjectAuthor, IsProjectContributor, UserPermission
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 from api.models import User, Project, Issue, Comment
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from api.serializers import (
     UserCreateSerializer,
@@ -26,12 +29,19 @@ from api.serializers import (
 )
 
 
+class RegisterView(generics.CreateAPIView):
+    """
+    ViewSet for creating Users.
+    """
+    serializer_class = UserCreateSerializer
+    permission_classes = []
+
+
 class UserViewSet(ModelViewSet):
     """
-    ViewSet for creating, viewing and editing Users.
+    ViewSet for viewing and editing Users.
     """
-
-    permission_classes = [IsAccountOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, UserPermission]
 
     def get_serializer_class(self):
         """
@@ -57,7 +67,7 @@ class ProjectViewSet(ModelViewSet):
     """
     ViewSet for creating, viewing and editing Projects.
     """
-    permission_classes = [IsAuthorOrReadOnly]
+    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
 
     # The _project variable is created to avoid unnecessary database queries.
     _project = None
@@ -73,12 +83,15 @@ class ProjectViewSet(ModelViewSet):
         # If the view was never accessed, a database query will be made.
         # Else, _project will have a value and no database query will be performed.
         if self._project is None:
-            # self._project = Project.objects.all()
+            # Project accessed only by its contributors
             self._project = Project.objects.filter(contributors=self.request.user)
 
         return self._project
 
     def get_serializer_class(self):
+        """
+        Return the class to use for the serializer.
+        """
         if self.action == 'create':
             return ProjectCreateSerializer
         elif self.action == 'list':
@@ -98,6 +111,15 @@ class ProjectViewSet(ModelViewSet):
         # upon creation, the logged-in user is saved as author and as contributor.
         serializer.save(author=self.request.user, contributors=[self.request.user])
 
+    def destroy(self, request, *args, **kwargs):
+        """
+       Deletion of Project model instance
+        """
+        return Response(
+            {"status": "The project has been successfully deleted."},
+            status=204
+        )
+
 
 class ContributorViewSet(ModelViewSet):
     """
@@ -111,12 +133,12 @@ class ContributorViewSet(ModelViewSet):
 
     @property
     def project(self):
-        """create an attribute project inside the ContributorViewSet
-        this attribute is available in the view and can be called/available in the serializer
+        """create an attribute project inside the ContributorViewSet.
+        This attribute is available in the view and can be called/available in the serializer.
         """
 
         # if the view was never executed before, we will make the database query;
-        # otherwise, _project will have a value and no database query will be performed
+        # otherwise, _project will have a value and no database query will be performed.
         if self._project is None:
             self._project = get_object_or_404(
                 Project.objects.all().prefetch_related("contributors"),
@@ -129,6 +151,9 @@ class ContributorViewSet(ModelViewSet):
         return self.project.contributors.all().order_by("date_joined")
 
     def get_serializer_class(self):
+        """
+        Return the class to use for the serializer.
+        """
         if self.action == 'create':
             return ContributorCreateSerializer
         elif self.action == 'list':
@@ -144,6 +169,24 @@ class ContributorViewSet(ModelViewSet):
     # removes a contributor
     def perform_destroy(self, instance):
         self.project.contributors.remove(instance)
+
+    def create(self, request, *args, **kwargs):
+        """
+       Adding a contributor.
+        """
+        return Response(
+            {"status": "The contributor has been successfully added."},
+            status=201
+        )
+
+    def destroy(self, request, *args, **kwargs):
+        """
+       Removal of a contributor.
+        """
+        return Response(
+            {"status": "The contributor has been successfully removed."},
+            status=204
+        )
 
 
 class IssueViewSet(ModelViewSet):
@@ -163,7 +206,6 @@ class IssueViewSet(ModelViewSet):
 
     def get_queryset(self):
         return self.issue.order_by("created_time")
-        # return Issue.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -174,12 +216,21 @@ class IssueViewSet(ModelViewSet):
             return IssueDetailSerializer
         return IssueCreateSerializer  # default serializer
 
-    # upon creation, save the logged-in user as author and assignee
+    # upon creation of an issue, save the logged-in user as author and assignee.
     def perform_create(self, serializer):
         selected_assignee = serializer.validated_data["assignee"]
         project_pk = self.kwargs["project_pk"]
         project = get_object_or_404(Project, id=project_pk)
         serializer.save(author=self.request.user, assignee=selected_assignee, project=project)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+       Deletion of Issue model instance
+        """
+        return Response(
+            {"status": "The issue has been successfully deleted."},
+            status=204
+        )
 
 
 class CommentViewSet(ModelViewSet):
@@ -201,6 +252,9 @@ class CommentViewSet(ModelViewSet):
         return self.comment.order_by("created_time")
 
     def get_serializer_class(self):
+        """
+        Return the class to use for the serializer.
+        """
         if self.action == 'create':
             return CommentCreateSerializer
         elif self.action == 'list':
@@ -209,7 +263,7 @@ class CommentViewSet(ModelViewSet):
             return CommentDetailSerializer
         return CommentCreateSerializer  # default serializer
 
-    # upon creation, save the logged-in user as author
+    # upon creation of a comment, save the logged-in user as its author.
     def perform_create(self, serializer):
         project_pk = self.kwargs["project_pk"]
         issue_pk = self.kwargs["issue_pk"]
@@ -218,3 +272,12 @@ class CommentViewSet(ModelViewSet):
 
         author = self.request.user
         serializer.save(author=author, issue=issue, issue_url=issue_url)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+       Deletion of Comment model instance
+        """
+        return Response(
+            {"status": "The comment has been successfully deleted."},
+            status=204
+        )

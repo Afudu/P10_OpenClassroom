@@ -24,7 +24,7 @@ class IsProjectAuthor(BasePermission):
     """
     view-level permission to only allow access to project's author.
     """
-    message = "You have to be the author of this project to access."
+    message = "You have to be the author of this project to access it."
 
     def has_permission(self, request, view):
         """
@@ -58,35 +58,17 @@ class IsProjectContributor(BasePermission):
             return True
 
 
-class IsProjectAuthorOrContributor(BasePermission):
+class UserPermission(BasePermission):
     """
-    view-level permission to only allow access to project's author or its contributors.
+      Object-level permission to only allow users to update their own account.
     """
-    message = "You have to be the author or a contributor of this project to access."
-
-    def has_permission(self, request, view):
-        """
-        view-level permission
-        """
-        # GET and POST
-        project_id = view.kwargs.get("project_pk")
-        project = Project.objects.get(pk=project_id)
-
-        # check if the logged-in user is a contributor.
-        if request.user == project.author or request.user in project.contributors.all():
-            return True
-
-
-class IsAccountOwnerOrReadOnly(BasePermission):
-    """
-      Object-level permission to only allow users to update and delete their own account.
-    """
+    message = "You can only access and update your own account."
 
     def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in SAFE_METHODS:
-            return True
 
-        # Write permissions are only allowed to the owner.
-        return obj.id == request.user.id
+        if view.action in ["retrieve", "update", "partial_update"]:
+            return (
+                    obj == request.user
+            )  # Allow the user to retrieve, update or partial_update their own data
+        else:
+            return False  # For other actions, deny all requests

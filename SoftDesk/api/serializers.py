@@ -15,6 +15,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate_age(self, value):
         """
         Creates custom field-level validation by adding validate_<field_name> method.
+        Reference = https://www.django-rest-framework.org/api-guide/serializers/#object-level-validation
         """
         if value < 16:
             raise serializers.ValidationError("Age must be 16 or older.")
@@ -28,12 +29,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
             contact_consent=validated_data["contact_consent"],
             data_share_consent=validated_data["data_share_consent"],
         )
+        # password encrypted
         user.set_password(validated_data["password"])
+
+        # save the data in the database
         user.save()
         return user
 
     def update(self, instance, validated_data):
-        # encrypt new passwords
+        # save new data with encrypted passwords
         instance.set_password(validated_data['password'])
         instance.save()
         return instance
@@ -44,7 +48,7 @@ class UserListSerializer(serializers.ModelSerializer):
     Serializer used to display all users in a list view.
     """
     # url displaying the user's detailed view.
-    url = serializers.HyperlinkedIdentityField(view_name='api:user-detail', )
+    url = serializers.HyperlinkedIdentityField(view_name='api:user-detail')
 
     class Meta:
         model = User
@@ -59,7 +63,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password', 'age', 'contact_consent', 'data_share_consent',
-                  "is_superuser", "date_joined"]
+                  'is_superuser', 'date_joined']
+        read_only_fields = ['id', 'username', 'password', 'date_joined', 'is_superuser']
 
 
 class ProjectCreateSerializer(serializers.ModelSerializer):
@@ -112,8 +117,8 @@ class ContributorCreateSerializer(serializers.ModelSerializer):
     Serializer used to display all contributors of a project in a list view
     """
 
-    # We create an attribute 'user', which is write_only - just need to give it a value.
-    # It will be used for a field-level validation.
+    # We create an attribute 'user', which is write_only and given a value.
+    # It will be used for field-level validations.
     user = serializers.IntegerField(write_only=True)
 
     class Meta:

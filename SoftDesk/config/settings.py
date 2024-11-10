@@ -130,8 +130,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configure Django to Use a Custom User model
 AUTH_USER_MODEL = 'api.User'
 
+# tell django which url to redirect to after successful login
+LOGIN_REDIRECT_URL = 'api/projects'
+
 # Project requirement:
-# Configure Django to use Simple JWT by adding rest_framework_simplejwt.authentication.JWTAuthentication
+# Configure Django to use Simple JWT: by adding rest_framework_simplejwt.authentication.JWTAuthentication
 # to the authentication classes as in docs on:
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html
 
@@ -139,9 +142,6 @@ REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
     ],
 
     # Pagination ENABLED - allows to control how many objects per page are returned.
