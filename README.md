@@ -154,7 +154,7 @@ Or use the account below to log in:
  * Username = User_Account_1
  * Password = Password01
 
-Signup and Login endpoints are the only ones that don't require an access token.
+Signup and Login endpoints do not require an access token.
 
 All other endpoints require an access token to work, and can be tested using [Postman](https://www.postman.com/) 
 or any other tool like cURL or Django REST framework’s localhost server.
