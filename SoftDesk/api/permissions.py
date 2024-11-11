@@ -24,7 +24,7 @@ class IsProjectAuthor(BasePermission):
     """
     view-level permission to only allow access to project's author.
     """
-    message = "You have to be the author of this project to access it."
+    message = "You have to be the author of this project to be able to add contributors."
 
     def has_permission(self, request, view):
         """
