@@ -18,8 +18,8 @@ the application uses JWT (JSON Web Token) for back-end authentication with Djang
 and guarantees the following required features:
 
 - Only authenticated users are able to access anything on the application.
-- Only a project's author is able to add contributors, update and delete the project. 
 - Only a project's author and its contributors are able to access it.
+- Only a project's author is able to add contributors, update and delete the project.
 - Only a project's contributors are able to:
   - create or access issues in the project, 
   - create & read comments on an issue, 
@@ -29,7 +29,7 @@ The design follows the diagram of the database schema provided,
 and GDPR standards have been adhered to with data share and contact consents, 
 and allowing users to access and update only their own account.
 
-### API Endpoints 
+### Required API Endpoints 
 
 | API Endpoint                          | HTTP Method | URI                                      |
 |---------------------------------------|-------------|------------------------------------------|
@@ -114,7 +114,7 @@ The following commands rely on the knowledge of how to use the terminal (Unix, m
    * Unix/macOS/Windows
 
       ```bash
-     pip install --upgrade pip
+     py -m pip install --upgrade pip
      ```
 
 **6 - Install all dependencies**
