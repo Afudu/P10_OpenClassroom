@@ -83,7 +83,7 @@ class ProjectViewSet(ModelViewSet):
         # If the view was never accessed, a database query will be made.
         # Else, _project will have a value and no database query will be performed.
         if self._project is None:
-            # Project accessed only by its contributors
+            # Project accessed only by its contributors - author is automatically a contributor.
             self._project = Project.objects.filter(contributors=self.request.user)
 
         return self._project
