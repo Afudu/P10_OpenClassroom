@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     """ Custom User model for creating users"""
 
-    # added age verification and consents fields for legal and GDPR
+    # added age verification and consents fields for legal and GDPR requirements.
     age = models.IntegerField(verbose_name="age")
     contact_consent = models.BooleanField(default=False, verbose_name="contact consent")
     data_share_consent = models.BooleanField(default=False, verbose_name="data share consent")
