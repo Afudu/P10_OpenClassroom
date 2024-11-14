@@ -166,23 +166,23 @@ class ContributorViewSet(ModelViewSet):
     def perform_create(self, serializer):
         self.project.contributors.add(serializer.validated_data["user"])
 
-    # removes a contributor
-    def perform_destroy(self, instance):
-        self.project.contributors.remove(instance)
-
+    # override create method to return a response message
     def create(self, request, *args, **kwargs):
-        """
-       Adding a contributor.
-        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
         return Response(
             {"status": "The contributor has been successfully added."},
             status=201
         )
 
+    # removes a contributor
+    def perform_destroy(self, instance):
+        self.project.contributors.remove(instance)
+
     def destroy(self, request, *args, **kwargs):
-        """
-       Removal of a contributor.
-        """
+        instance = self.get_object()
+        self.perform_destroy(instance)
         return Response(
             {"status": "The contributor has been successfully removed."},
             status=204
