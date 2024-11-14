@@ -162,7 +162,7 @@ or any other tool like cURL or Django REST framework’s localhost server.
 All required API Endpoints have been tested, documented, 
 and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on Postman.
 
-The database used is in the file ```db.sqlite3``` located in ```SoftDesk``` folder.
+The database used is in the file ```db.sqlite3``` located in the ```SoftDesk``` folder.
 
 # PEP 8 adherence
 
