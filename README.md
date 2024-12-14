@@ -131,7 +131,7 @@ add users as contributors to a particular project, create issues in a project, a
 ### Admin Panel
 1. Create a superuser account
    ```bash
-   python manage.py create superuser
+   python manage.py createsuperuser
 2. Navigate to:
    ```bash
     http://localhost:8000/admin
