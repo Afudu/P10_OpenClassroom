@@ -66,7 +66,7 @@ add users as contributors to a particular project, create issues in a project, a
 2. Create Serializers for data validation and transformation.
 3. Create Views to handle API logic.
 4. Define URL routes for the API.
-5. Apply Permissions the Views to ensure authorized access.
+5. Apply Permissions to the Views to ensure authorized access.
 
 ## Local Development
 
@@ -131,7 +131,7 @@ add users as contributors to a particular project, create issues in a project, a
 ### Admin Panel
 1. Create a superuser account
    ```bash
-   python manage.py create superuser
+   python manage.py createsuperuser
 2. Navigate to:
    ```bash
     http://localhost:8000/admin
