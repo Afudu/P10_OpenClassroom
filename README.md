@@ -1,178 +1,152 @@
-# OpenClassrooms - Python Developer Path
+# Create a Secure RESTful API Using Django REST
 
-**Project 10:** Create a Secure RESTful API Using Django REST
+**OpenClassrooms - Python Developer Path:** Project 10
 
 **Student:** Abdoul Baki Seydou
 
 **Date:** 04/03/2024
 
-## Abstract
-This project consists of developing for SoftDesk, a product-based company that produces software development
-and collaboration tools, a RESTful issue-tracking API using the Django REST framework.
+## Table of Contents
+1. [Summary](#summary)
+2. [Features](#features)
+3. [API Endpoints](#api-endpoints)
+4. [Technologies Used](#technologies-used)
+5. [Project Tasks](#project-tasks)
+6. [Local Development](#local-development)
+   - [Prerequisites](#prerequisites)
+   - [Setup on macOS/Linux](#setup-on-macoslinux)
+   - [Setup on Windows](#setup-on-windows)
+   - [Running the Application](#running-the-application)
+   - [Linting and Testing](#linting-and-testing)
+   - [Admin Panel](#admin-panel)
+
+## Summary
+This project consists of developing for **SoftDesk**, a product-based company, 
+a secure a RESTful issue-tracking API.
 
 The tracking application covers all three platforms (Web, Android, and iOS), and enables users to create projects, 
 add users as contributors to a particular project, create issues in a project, and add comments to an issue.
 
-In addressing the OWASP(Open Worldwide Application Security Project) vulnerability checks to be implemented,
-the application uses JWT (JSON Web Token) for back-end authentication with Django REST Permissions, 
-and guarantees the following required features:
+## Features
+- **Authentication & Authorization**: Role-based and Ownership-based secure access.
+- **API Endpoints**: Support CRUD (create, read, update, and delete).
 
-- Only authenticated users are able to access anything on the application.
-- Only a project's author and its contributors are able to access it.
-- Only a project's author is able to add contributors, update and delete the project.
-- Only a project's contributors are able to:
-  - create or access issues in the project, 
-  - create & read comments on an issue, 
-  - update & delete issues or comments if they are the author.
+## API Endpoints 
 
-The design follows the diagram of the database schema provided, 
-and GDPR standards have been adhered to with data share and contact consents, 
-and allowing users to access and update only their own account.
+| API Endpoint                    | HTTP Method | URI                                      | Permission             |
+|---------------------------------|-------------|------------------------------------------|------------------------|
+| User Signup	                    | POST        | /signup/                                 | Anyone above 16 yrs    |
+| User Login                      | POST        | /login/                                  | Registered users       |
+| List Projects of Logged-in User | GET         | /projects/                               | Owner and Contributors |
+| Create a New Project            | POST        | /projects/                               | Registered users       |
+| Get a Project                   | GET         | /projects/{id}/                          | Owner and Contributors |
+| Update a Project                | PUT         | /projects/{id}/                          | Project Owner          |
+| Delete a Project and its Issues | DELETE      | /projects/{id}/                          | Project Owner          |
+| Add a Contributor to a Project  | POST        | /projects/{id}/contributors/             | Project Owner          |
+| List all the Users in a Project | GET         | /projects/{id}/contributors/             | Project Owner          |
+| Delete a User From a Project    | DELETE      | /projects/{id}/contributors/{id}         | Project Owner          |
+| Get Issues of a Project         | GET         | /projects/{id}/issues/                   | Owner and Contributors |
+| Create an Issue in a Project    | POST        | /projects/{id}/issues/                   | Owner and Contributors |
+| Update an Issue in a Project    | PUT         | /projects/{id}/issues/{id}               | Issue Owner            |
+| Delete an Issue in a Project    | DELETE      | /projects/{id}/issues/{id}               | Issue Owner            |
+| Create Comments on an Issue     | POST        | /projects/{id}/issues/{id}/comments/     | Owner and Contributors |
+| List all Comments on an Issue   | GET         | /projects/{id}/issues/{id}/comments/     | Owner and Contributors |
+| Edit a Comment                  | PUT         | /projects/{id}/issues/{id}/comments/{id} | Comment Owner          |
+| Delete a Comment                | DELETE      | /projects/{id}/issues/{id}/comments/{id} | Comment Owner          |
+| Get a Particular Comment        | GET         | /projects/{id}/issues/{id}/comments/{id} | Owner and Contributors |
 
-### Required API Endpoints 
+## Technologies Used
+- **Programming Language:** Python  
+- **Framework:** Django REST
+- **Database:** SQLite
+- **Back-end authentication** JWT (JSON Web Token)
 
-| API Endpoint                          | HTTP Method | URI                                      |
-|---------------------------------------|-------------|------------------------------------------|
-| User Signup	                          | POST        | /signup/                                 |
-| User Login                            | POST        | /login/                                  |
-| List Projects of the Logged-in User   | GET         | /projects/                               |
-| Create a New Project                  | POST        | /projects/                               |
-| Get a Project                         | GET         | /projects/{id}/                          |
-| Update a Project                      | PUT         | /projects/{id}/                          |
-| Delete a Project and its Issues       | DELETE      | /projects/{id}/                          |
-| Add a User (contributor) to a Project | POST        | /projects/{id}/contributors/             |
-| List all the Users in a Project       | GET         | /projects/{id}/contributors/             |
-| Delete a User From a Project          | DELETE      | /projects/{id}/contributors/{id}         |
-| Get Issues of a Project               | GET         | /projects/{id}/issues/                   |
-| Create an Issue in a Project          | POST        | /projects/{id}/issues/                   |
-| Update an Issue in a Project          | PUT         | /projects/{id}/issues/{id}               |
-| Delete an Issue in a Project          | DELETE      | /projects/{id}/issues/{id}               |
-| Create Comments on an Issue           | POST        | /projects/{id}/issues/{id}/comments/     |
-| List all the Comments on an Issue     | GET         | /projects/{id}/issues/{id}/comments/     |
-| Edit a Comment                        | PUT         | /projects/{id}/issues/{id}/comments/{id} |
-| Delete a Comment                      | DELETE      | /projects/{id}/issues/{id}/comments/{id} |
-| Get a Particular Comment              | GET         | /projects/{id}/issues/{id}/comments/{id} |
+## Project Tasks
+1. Complete Designing Django models in Database Schema.
+2. Create Serializers for data validation and transformation.
+3. Create Views to handle API logic.
+4. Define URL routes for the API.
+5. Apply Permissions the Views to ensure authorized access.
 
-## Requirement
+## Local Development
 
-Latest version of Python must be installed.
+### Prerequisites
+- PostgreSQL installed.
+- Python 3.6 or higher.
 
-You can download the latest version for your system from : https://www.python.org/downloads/
+### Setup on macOS/Linux
 
-## Installation
+1. **Clone the Repository**
+   ```bash
+   cd /path/to/put/project/in
+   git clone https://github.com/Afudu/P10_OpenClassroom.git
 
-The following commands rely on the knowledge of how to use the terminal (Unix, macOS) or the command line (Windows).
+2. **Move to the folder**
+   ```bash
+   cd P10_OpenClassroom
 
-**1 - Get the code**
+3. **Set Up Virtual Environment**
+   ```bash
+   python -m venv venv
+   
+4. **Activate Environment**
+   ```bash
+   source venv/bin/activate 
 
-   * Unix/macOS/Windows
+5. **Securely upgrade pip**
+   ```bash
+   python -m pip install --upgrade pip 
 
-       ```bash
-       git clone https://github.com/Afudu/P10_OpenClassroom.git
-       ```
+6. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   
+7. **To deactivate Environment**
+   ```bash
+   deactivate
 
-**2 - Move to the folder**
+### Setup on Windows
 
-   * Unix/macOS/Windows
+1. Follow the steps above.
 
-       ```bash
-       cd P10_OpenClassroom
-       ```  
+2. To activate the environment:
+   ```bash
+   .\venv\Scripts\Activate
 
-**3 - Create a virtual environment**
+### Running the application
 
-  * Unix/macOS
+1. **Start the server**
+   ```bash
+   cd SoftDesk; python manage.py runserver
+   
+2. **Access in the browser**
+- To register, navigate to:
+  ```bash
+  http://localhost:8000/api/signup
 
-    ```bash
-    python3 -m venv pythonenv
-     ```
-  * Windows
+- To log in, navigate to:
+  ```bash
+  http://localhost:8000/api/login
 
-    ```bash
-    py -m venv pythonenv
-    ```
+### Admin Panel
+1. Create a superuser account
+   ```bash
+   python manage.py create superuser
+2. Navigate to:
+   ```bash
+    http://localhost:8000/admin
+3. Use the superuser user created above to log in.
+
+### Linting and Testing
+
+- **Run Linting**
+  ```bash
+  flake8
+
+- **Tests**
+
+   * Signup and Login endpoints do not require an access token.
   
-    * Note: you can create the virtual environment in another folder, then move to that folder to run the command above.
-    * Example: in the above command, our virtual environment created is called pythonenv - you can give a different name.
-
-**4 - Activate the virtual environment created**
-
-  * Unix/macOS
-
-    ```bash
-    source pythonenv/bin/activate
-    ```
-
-  * Windows
-
-    ```bash
-    pythonenv\Scripts\activate
-    ```
-
-**5 - Securely upgrade pip**
-
-   * Unix/macOS/Windows
-
-      ```bash
-     py -m pip install --upgrade pip
-     ```
-
-**6 - Install all dependencies**
-
-  * Unix/macOS/Windows
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Running the application
-
-**Move to the folder**
-
-  * Unix/macOS/Windows
-
-      ```bash
-      cd SoftDesk
-      ```
-
-**Start the server**
-
-  * Unix/macOS/Windows
-
-    ```bash
-    python manage.py runserver
-    ```
-
-## Testing the application
-After the server has started, the API can then be tested by navigating to:
-
-* Signup:  http://localhost:8000/api/signup
-* Login :  http://localhost:8000/api/login
-
-Or use the account below to log in:
-
- * Username = User_Account_1
- * Password = Password01
-
-Signup and Login endpoints do not require an access token.
-
-All other endpoints require an access token to work, and can be tested using [Postman](https://www.postman.com/) 
-or any other tool like cURL or Django REST framework’s localhost server.
-
-All required API Endpoints have been tested, documented, 
-and [published](https://documenter.getpostman.com/view/25994788/2sA3JRafGj) on Postman.
-
-The database used is in the file ```db.sqlite3``` located in the ```SoftDesk``` folder.
-
-# PEP 8 adherence
-
-The folder ```flake_report``` in the repository contains an HTML report generated by flake8-html which displays no errors.
-A new report can be generated by running the following command: 
-
-  * Unix/macOS/Windows
-
-      ```bash
-        flake8
-       ```
-
-The file ```setup.cfg``` in the root of the repository contains the settings used to generate the report.
+   * All other endpoints require an access token to work, and can be tested using [Postman](https://www.postman.com/) or any other tool like cURL or Django REST framework’s localhost server.
+  
+   * The tests performed and their results can be viewed from this [link](https://documenter.getpostman.com/view/25994788/2sA3JRafGj).
