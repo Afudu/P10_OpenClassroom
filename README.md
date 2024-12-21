@@ -62,7 +62,7 @@ add users as contributors to a particular project, create issues in a project, a
 - **Back-end authentication** JWT (JSON Web Token)
 
 ## Project Tasks
-1. Complete Designing Django models in Database Schema.
+1. Complete designing Django models based on Database Schema.
 2. Create Serializers for data validation and transformation.
 3. Create Views to handle API logic.
 4. Define URL routes for the API.
@@ -138,15 +138,19 @@ add users as contributors to a particular project, create issues in a project, a
 3. Use the superuser user created above to log in.
 
 ### Linting and Testing
+The codebase is fully linted and free of errors.
 
-- **Run Linting**
+- **To Run Linting**
   ```bash
   flake8
 
-- **Tests**
+- **Testing:**
 
    * Signup and Login endpoints do not require an access token.
   
-   * All other endpoints require an access token to work, and can be tested using [Postman](https://www.postman.com/) or any other tool like cURL or Django REST framework’s localhost server.
+   * All other endpoints require an access token to work.
+  
+   * All endpoints can be tested using [Postman](https://www.postman.com/) 
+     or any other tool like cURL or Django REST framework’s localhost server.
   
    * The tests performed and their results can be viewed from this [link](https://documenter.getpostman.com/view/25994788/2sA3JRafGj).
