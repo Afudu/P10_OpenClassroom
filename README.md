@@ -9,9 +9,9 @@
 ## Table of Contents
 1. [Summary](#summary)
 2. [Features](#features)
-3. [API Endpoints](#api-endpoints)
-4. [Technologies Used](#technologies-used)
-5. [Project Tasks](#project-tasks)
+3. [Technologies Used](#technologies-used)
+4. [Project Tasks](#project-tasks)
+5. [API Endpoints](#api-endpoints)
 6. [Local Development](#local-development)
    - [Prerequisites](#prerequisites)
    - [Setup on macOS/Linux](#setup-on-macoslinux)
@@ -30,6 +30,19 @@ add users as contributors to a particular project, create issues in a project, a
 ## Features
 - **Authentication & Authorization**: Role-based and Ownership-based secure access.
 - **API Endpoints**: Support CRUD (create, read, update, and delete).
+
+## Technologies Used
+- **Programming Language:** Python  
+- **Framework:** Django REST
+- **Database:** SQLite
+- **Back-end authentication** JWT (JSON Web Token)
+
+## Project Tasks
+1. Complete designing Django models based on Database Schema.
+2. Create Serializers for data validation and transformation.
+3. Create Views to handle API logic.
+4. Define URL routes for the API.
+5. Apply Permissions to the Views to ensure authorized access.
 
 ## API Endpoints 
 
@@ -55,18 +68,6 @@ add users as contributors to a particular project, create issues in a project, a
 | Delete a Comment                | DELETE      | /projects/{id}/issues/{id}/comments/{id} | Comment Owner          |
 | Get a Particular Comment        | GET         | /projects/{id}/issues/{id}/comments/{id} | Owner and Contributors |
 
-## Technologies Used
-- **Programming Language:** Python  
-- **Framework:** Django REST
-- **Database:** SQLite
-- **Back-end authentication** JWT (JSON Web Token)
-
-## Project Tasks
-1. Complete designing Django models based on Database Schema.
-2. Create Serializers for data validation and transformation.
-3. Create Views to handle API logic.
-4. Define URL routes for the API.
-5. Apply Permissions to the Views to ensure authorized access.
 
 ## Local Development
 
